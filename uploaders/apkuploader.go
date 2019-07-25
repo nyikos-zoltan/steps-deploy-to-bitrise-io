@@ -113,7 +113,7 @@ func DeployAPK(pth, buildURL, token, notifyUserGroups, notifyEmails, isEnablePub
 
 	apkInfo, err := getAPKInfo(pth)
 	if err != nil {
-		return "", err
+		log.Errorf("failed to get apk info: %s", err)
 	}
 
 	appInfo := map[string]interface{}{
