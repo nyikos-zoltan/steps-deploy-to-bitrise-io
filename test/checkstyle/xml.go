@@ -1,6 +1,6 @@
 package checkstyle
 
-type XML struct {
+type CheckStyle struct {
 	Files []CheckStyleFile `xml:"file,omitempty"`
 }
 
