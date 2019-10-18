@@ -6,19 +6,62 @@
 package converters
 
 import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+
+	"github.com/bitrise-io/go-utils/fileutil"
+	"github.com/bitrise-steplib/steps-deploy-to-bitrise-io/test/checkstyle"
 	"github.com/bitrise-steplib/steps-deploy-to-bitrise-io/test/converters/junitxml"
 	"github.com/bitrise-steplib/steps-deploy-to-bitrise-io/test/converters/xcresult"
 	"github.com/bitrise-steplib/steps-deploy-to-bitrise-io/test/converters/xcresult3"
-	"github.com/bitrise-steplib/steps-deploy-to-bitrise-io/test/junit"
 )
 
 // Intf is the required interface a converter need to match
 type Intf interface {
-	XML() (junit.XML, error)
+	XML() (interface{}, error)
 	Detect([]string) bool
 }
 
+type CheckstyleConverter struct {
+	files []string
+}
+
+func (c *CheckstyleConverter) XML() (interface{}, error) {
+	var xmlContent checkstyle.XML
+
+	for _, file := range c.files {
+		data, err := fileutil.ReadBytesFromFile(file)
+		if err != nil {
+			return nil, err
+		}
+
+		var fileData checkstyle.XML
+		checkstyleError := xml.Unmarshal(data, &fileData)
+		if checkstyleError != nil {
+			return nil, checkstyleError
+		}
+
+		xmlContent.Files = append(xmlContent.Files, fileData.Files...)
+	}
+
+	return xmlContent, nil
+}
+
+func (c *CheckstyleConverter) Detect(files []string) bool {
+	fmt.Println("Detect called!")
+	for _, file := range files {
+		if strings.HasSuffix(file, "checkstyle.xml") {
+			c.files = append(c.files, file)
+		} else {
+			fmt.Printf("%s was skipped!\n", file)
+		}
+	}
+	return len(c.files) > 0
+}
+
 var converters = []Intf{
+	&CheckstyleConverter{},
 	&junitxml.Converter{},
 	&xcresult.Converter{},
 	&xcresult3.Converter{},

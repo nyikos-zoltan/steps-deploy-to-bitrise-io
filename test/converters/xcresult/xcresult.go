@@ -62,7 +62,7 @@ func filterIllegalChars(data []byte) (filtered []byte) {
 }
 
 // XML ...
-func (h *Converter) XML() (junit.XML, error) {
+func (h *Converter) XML() (interface{}, error) {
 	data, err := fileutil.ReadBytesFromFile(h.testSummariesPlistPath)
 	if err != nil {
 		return junit.XML{}, err

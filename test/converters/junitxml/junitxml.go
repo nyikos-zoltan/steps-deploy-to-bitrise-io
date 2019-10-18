@@ -18,7 +18,7 @@ type Converter struct {
 func (h *Converter) Detect(files []string) bool {
 	h.files = nil
 	for _, file := range files {
-		if strings.HasSuffix(file, ".xml") {
+		if strings.HasSuffix(file, ".xml") && !strings.HasSuffix(file, "checkstyle.xml") {
 			h.files = append(h.files, file)
 		}
 	}
@@ -83,7 +83,7 @@ func parseTestSuites(filePath string) ([]junit.TestSuite, error) {
 }
 
 // XML returns the xml content bytes
-func (h *Converter) XML() (junit.XML, error) {
+func (h *Converter) XML() (interface{}, error) {
 	var xmlContent junit.XML
 
 	for _, file := range h.files {

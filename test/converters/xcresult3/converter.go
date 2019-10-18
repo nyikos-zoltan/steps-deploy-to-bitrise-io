@@ -84,7 +84,7 @@ func (c *Converter) Detect(files []string) bool {
 }
 
 // XML ...
-func (c *Converter) XML() (junit.XML, error) {
+func (c *Converter) XML() (interface{}, error) {
 	testResultDir := filepath.Dir(c.xcresultPth)
 
 	record, summaries, err := Parse(c.xcresultPth)
