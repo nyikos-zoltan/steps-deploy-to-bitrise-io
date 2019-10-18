@@ -28,7 +28,7 @@ type CheckstyleConverter struct {
 }
 
 func (c *CheckstyleConverter) XML() (interface{}, error) {
-	var xmlContent checkstyle.CheckStyle
+	var xmlContent checkstyle.XML
 
 	for _, file := range c.files {
 		data, err := fileutil.ReadBytesFromFile(file)
@@ -36,7 +36,7 @@ func (c *CheckstyleConverter) XML() (interface{}, error) {
 			return nil, err
 		}
 
-		var fileData checkstyle.CheckStyle
+		var fileData checkstyle.XML
 		checkstyleError := xml.Unmarshal(data, &fileData)
 		if checkstyleError != nil {
 			return nil, checkstyleError
