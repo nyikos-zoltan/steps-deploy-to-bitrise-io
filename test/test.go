@@ -248,6 +248,8 @@ func (results Results) Upload(apiToken, endpointBaseURL, appSlug, buildSlug stri
 			return err
 		}
 
+		fmt.Printf("XMLContent: %s\n", result.XMLContent)
+
 		var (
 			uploadResponse   UploadResponse
 			uploadRequestURL = fmt.Sprintf("%s/apps/%s/builds/%s/test_reports", endpointBaseURL, appSlug, buildSlug)
