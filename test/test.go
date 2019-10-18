@@ -248,7 +248,7 @@ func (results Results) Upload(apiToken, endpointBaseURL, appSlug, buildSlug stri
 			return err
 		}
 
-		fmt.Printf("XMLContent: %s\n", result.XMLContent)
+		fmt.Printf("\n\nXMLContent: %s\n", result.XMLContent)
 
 		var (
 			uploadResponse   UploadResponse
