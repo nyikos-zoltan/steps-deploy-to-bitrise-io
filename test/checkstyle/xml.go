@@ -1,12 +1,16 @@
 package checkstyle
 
-type CheckStyle struct {
-	Files []CheckStyleFile `xml:"file,omitempty"`
+import "encoding/xml"
+
+type XML struct {
+	XMLName xml.Name          `xml:"checkstyle"`
+	Version string            `xml:"version,attr"`
+	Files   []*CheckStyleFile `xml:"file,omitempty"`
 }
 
 type CheckStyleFile struct {
-	Name   string            `xml:"name,attr"`
-	Errors []CheckStyleError `xml:"error"`
+	Name   string             `xml:"name,attr"`
+	Errors []*CheckStyleError `xml:"error"`
 }
 
 type CheckStyleError struct {
